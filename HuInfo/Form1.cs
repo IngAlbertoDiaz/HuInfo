@@ -23,6 +23,12 @@ namespace HuInfo
         {
             try
             {
+
+                if (txtHU.Text == "" || String.IsNullOrEmpty(txtHU.Text) || String.IsNullOrWhiteSpace(txtHU.Text))
+                {
+                    MessageBox.Show("Ingresa un HU valido");
+                }
+
                 Metodos metodo = new Metodos();
                 DataTable dtResultado = metodo.GetHU(hu);
                 if (dtResultado != null)
@@ -35,7 +41,7 @@ namespace HuInfo
                     }
                     else
                     {
-                        MessageBox.Show("No se encontro informacion");
+                        MessageBox.Show("El HU no existe, o es incorrecto.");
                     }
                 }
             }
