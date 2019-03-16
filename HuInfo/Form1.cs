@@ -23,25 +23,54 @@ namespace HuInfo
         {
             try
             {
+                Metodos metodo = new Metodos();
 
                 if (txtHU.Text == "" || String.IsNullOrEmpty(txtHU.Text) || String.IsNullOrWhiteSpace(txtHU.Text))
                 {
                     MessageBox.Show("Ingresa un HU valido");
                 }
-
-                Metodos metodo = new Metodos();
-                DataTable dtResultado = metodo.GetHU(hu);
-                if (dtResultado != null)
+                
+                if (rbCMES.Checked == true)
                 {
-                    if (dtResultado.Rows.Count > 0)
+                    DataTable dtResultado = metodo.CmesHU(hu);
+                    if (dtResultado != null)
                     {
-                        //dgvInfo.DataSource = dtResultado;
-                        dgvInfo.Rows.Add(dtResultado.Rows[0][0].ToString(), dtResultado.Rows[0][1].ToString(),dtResultado.Rows[0][2].ToString(), dtResultado.Rows[0][3].ToString());
-                        txtHU.Text = "";
+                        if (dtResultado.Rows.Count > 0)
+                        {
+                            //dgvInfo.DataSource = dtResultado;
+                            dgvInfo.Rows.Add(dtResultado.Rows[0][0].ToString(), dtResultado.Rows[0][1].ToString(), dtResultado.Rows[0][2].ToString(), dtResultado.Rows[0][3].ToString());
+                            txtHU.Text = "";
+                        }
+                        else
+                        {
+                            MessageBox.Show("El HU no se encuentra en CMES, o es incorrecto.");
+                        }
                     }
-                    else
+                }
+                if (rbINFOR.Checked == true)
+                {
+                    string company = "";
+                    if (rbDurango.Checked == true)
                     {
-                        MessageBox.Show("El HU no existe, o es incorrecto.");
+                        company = "630";
+                    }
+                    if (rbLeon.Checked == true)
+                    {
+                        company = "640";
+                    }
+                    DataTable dtResultado = metodo.InforHU(hu, company);
+                    if (dtResultado != null)
+                    {
+                        if (dtResultado.Rows.Count > 0)
+                        {
+                            //dgvInfo.DataSource = dtResultado;
+                            dgvInfo.Rows.Add(dtResultado.Rows[0][0].ToString(), dtResultado.Rows[0][1].ToString(), dtResultado.Rows[0][2].ToString(), dtResultado.Rows[0][3].ToString());
+                            txtHU.Text = "";
+                        }
+                        else
+                        {
+                            MessageBox.Show("El HU no se encuentra en InforLN, o es incorrecto.");
+                        }
                     }
                 }
             }
@@ -56,6 +85,7 @@ namespace HuInfo
             if (e.KeyCode == Keys.Enter)
             {
                 ConsultarHU(txtHU.Text);
+                txtHU.Focus();
             }
         }
 
@@ -67,6 +97,20 @@ namespace HuInfo
         private void recargarIPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lblIPaddress.Text = "Server: " + IP();
+        }
+
+        private void rbINFOR_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbINFOR.Checked == true)
+            {
+                groupBox1.Enabled = true;
+                txtHU.Focus();
+            }
+            if (rbINFOR.Checked == false)
+            {
+                groupBox1.Enabled = false;
+                txtHU.Focus();
+            }
         }
     }
 }
