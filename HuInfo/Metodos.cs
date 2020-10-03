@@ -7,8 +7,8 @@ namespace HuInfo
     {
         private SqlConnection Connection = new SqlConnection();
         private SqlCommand Command = new SqlCommand();
-        private string cmesDatabase = "Server=192.168.82.14\\COFICABMINPRO;Database=CMES;Integrated Security=False;User ID=SA;Password=DBACoficab";
-        private string inforDatabase = "Server=192.168.82.45\\ERPLN;Database=erplnfp9db;Integrated Security=False;User ID=lapp;Password=@lber$321";
+        private string cmesDatabase = "";
+        private string inforDatabase = "";
 
         public DataTable CmesHU(string hu)
         {
